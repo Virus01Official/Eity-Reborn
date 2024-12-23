@@ -8,6 +8,7 @@ pressure = require "maps/The Pressure/map"
 stellaRium = require "maps/Stella-rium/map"
 virtualParadise = require "maps/Virtual Paradise/map"
 coldGreenEyes = require "maps/Cold Green Eyes/map"
+burnntToACrisp = require "maps/burnt to a crisp/map"
 --elama = require "maps/Elaman koulu/map"
 --template = require "maps/Template/map"
 
@@ -51,24 +52,28 @@ end
 function mapManager:load()      
   -- (0 = none, 1 = normal, 2 = slider, 3 = bad), 448 = up, 64 = down, 192 = left, 320 = right, milliseconds to spawn
   -- Slider length
-  table.insert(listOfMaps, shelter)
-  table.insert(listOfMaps, prayerBlue)
-  table.insert(listOfMaps, virtualParadise)
-  table.insert(listOfMaps, coldGreenEyes)
-  table.insert(listOfMaps, paradigmShift)  
-  table.insert(listOfMaps, stellaRium)  
-  table.insert(listOfMaps, pressure)
-  table.insert(listOfMaps, freedomDive)
-  table.insert(listOfMaps, highscore)
-  table.insert(listOfMaps, yumeiroParade)  
+  local mapsToAdd = {
+    shelter,
+    prayerBlue,
+    virtualParadise,
+    coldGreenEyes,
+    paradigmShift,
+    stellaRium,
+    pressure,
+    freedomDive,
+    yumeiroParade,
+    burnntToACrisp
+  }
   
+  for _, map in ipairs(mapsToAdd) do
+    table.insert(listOfMaps, map)
+  end
   
-  --table.insert(listOfMaps, elama)  
-  --table.insert(listOfMaps, template)
-  for i, v in ipairs(mapManager.getListOfMaps()) do
-    for i, v in ipairs(v) do
-      if (v[i][1] == 3) then
-        v[i][5] = v[i][5] + 100
+  -- Process the maps
+  for _, map in ipairs(mapManager.getListOfMaps()) do
+    for _, v in ipairs(map) do
+      if v[1] == 3 then
+        v[5] = v[5] + 100
       end
     end
   end
