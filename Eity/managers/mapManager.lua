@@ -1,9 +1,23 @@
-local mapManager = {}
+shelter = require "maps/Shelter/map"
+freedomDive = require "maps/FREEDOM DiVE/map"
+yumeiroParade = require "maps/Yumeiro Parade/map"
+highscore = require "maps/Highscore/map"
+prayerBlue = require "maps/Prayer Blue/map"
+paradigmShift = require "maps/Paradigm Shift/map"
+pressure = require "maps/The Pressure/map"
+stellaRium = require "maps/Stella-rium/map"
+virtualParadise = require "maps/Virtual Paradise/map"
+coldGreenEyes = require "maps/Cold Green Eyes/map"
+burnntToACrisp = require "maps/burnt to a crisp/map"
+--elama = require "maps/Elaman koulu/map"
+--template = require "maps/Template/map"
 
-local listOfMaps = {}
-
+mapManager = { }
+ 
+listOfMaps = {}
+ 
 function mapManager.getListOfMaps()
-  return listOfMaps
+ return listOfMaps
 end
 
 function mapManager.getLengthOfIndex(index)
@@ -34,35 +48,34 @@ function mapManager.getNotesOfIndex(index)
   return listOfMaps[index].getNotes()
 end
 
-function mapManager.addMap(map)
-  -- Add a single map to the list
-  table.insert(listOfMaps, map)
-
-  -- Process the map if necessary (lazy loading adjustment)
-  for _, v in ipairs(map) do
-    if v[1] == 3 then
-      v[5] = v[5] + 100
-    end
-  end
-end
-
-function mapManager:load()
-  -- Define maps to add dynamically
+ 
+function mapManager:load()      
+  -- (0 = none, 1 = normal, 2 = slider, 3 = bad), 448 = up, 64 = down, 192 = left, 320 = right, milliseconds to spawn
+  -- Slider length
   local mapsToAdd = {
-    require("maps/Shelter/map"),
-    require("maps/Prayer Blue/map"),
-    require("maps/Virtual Paradise/map"),
-    require("maps/Cold Green Eyes/map"),
-    require("maps/Paradigm Shift/map"),
-    require("maps/Stella-rium/map"),
-    require("maps/The Pressure/map"),
-    require("maps/FREEDOM DiVE/map"),
-    require("maps/Yumeiro Parade/map"),
-    require("maps/burnt to a crisp/map")
+    shelter,
+    prayerBlue,
+    virtualParadise,
+    coldGreenEyes,
+    paradigmShift,
+    stellaRium,
+    pressure,
+    freedomDive,
+    yumeiroParade,
+    burnntToACrisp
   }
-
+  
   for _, map in ipairs(mapsToAdd) do
-    mapManager.addMap(map)
+    table.insert(listOfMaps, map)
+  end
+  
+  -- Process the maps
+  for _, map in ipairs(mapManager.getListOfMaps()) do
+    for _, v in ipairs(map) do
+      if v[1] == 3 then
+        v[5] = v[5] + 100
+      end
+    end
   end
 end
 
